@@ -187,7 +187,7 @@ export default class Home extends Component{
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        backgroundColor: 'navy',
+        backgroundColor: '#f4f4f6',
     },
 
     // List
@@ -208,17 +208,17 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     textTitle: {
-        fontSize: 'medium',
+        fontSize: 14,
         fontWeight: 'bold',
         color: 'grey'
     },
     textDescription: {
-        fontSize: 'small',
+        fontSize: 12,
         color: 'grey',
         marginTop: 10
     },
     textTime: {
-        fontSize: 'small',
+        fontSize: 12,
         color: 'lightgrey',
         marginTop: 5
     },
@@ -228,5 +228,58 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 20,
         bottom: 20
+    },
+
+    container: {
+        flex: 1,
+        backgroundColor: '#f4f4f6'
+    },
+    toolbar: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 48, //; 88; 78,
+        paddingTop: 0,//; 40; 30,
+        backgroundColor: '#2ebe60',
+        alignItems: 'center'
+    },
+    titleContainer: {
+        flex: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    titleToolbar: {
+        color: 'white',
+        // fontFamily: fontFamily.bold,
+        fontSize: 18,
+    },
+    viewWrapIcLeft: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    icLeft: {
+        width: 23,
+        height: 23,
+        tintColor: 'white'
+    },
+    viewWrapIcRight: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    icRight: {
+        width: 23,
+        height: 23,
+        tintColor: 'white'
+    },
+    textRight: {
+        color: 'white',
+        // fontFamily: fontFamily.medium,
+        fontSize: 14,
+    },
+    viewHorizontalLine: {
+        backgroundColor: 'grey',
+        height: 0.5,
+        alignSelf: 'stretch'
     }
 })
