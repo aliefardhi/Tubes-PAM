@@ -276,12 +276,12 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     textDescription: {
-        fontSize: 'small',
+        fontSize: 12,
         color: 'grey',
         marginTop: 10
     },
     textTime: {
-        fontSize: 'small',
+        fontSize: 12,
         color: 'lightgrey',
         marginTop: 5
     },
@@ -361,11 +361,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'grey',
         alignSelf: 'stretch',
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textTitle: {
-        fontSize: 14,
+        fontSize: 18,
         color: '#30333a',
+        fontWeight: 'bold',
+        textAlign: 'center'
         //fontFamily: fontFamily.demiBold
     },
 })

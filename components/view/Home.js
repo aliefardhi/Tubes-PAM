@@ -134,7 +134,7 @@ export default class Home extends Component{
                             renderItem={this.renderItem}
                         />:
                         <View onRetryPress={this.getListNoteFromDb}/>
-                    }
+                    } 
 
                     <TouchableOpacity style={styles.btnAddNew} onPress={this.onAddNewPress}>
                         <MaterialCommunityIcons name={"plus-circle"} size={50} />
@@ -155,7 +155,8 @@ export default class Home extends Component{
                     })
                 }}
             >
-                <Text style={styles.textTitle} numberOfLines={1}>{item.title}</Text>
+                <Text style={styles.textTitle} numberOfLines={1}>Test Title</Text>
+                {/* <Text style={styles.textTitle} numberOfLines={1}>{item.title}</Text> */}
                 {/* <Text style={styles.textTime} numberOfLines={1}>{`${moment.unix(item.updated_at).format('MM-DD-YYYY HH:mm')}`}</Text> */}
             </TouchableOpacity>
         )
