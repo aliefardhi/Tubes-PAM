@@ -1,28 +1,10 @@
 import React, {Component} from "react";
-import{
-    BackHandler,
-    Image,
-    Keyboard,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import{ ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet, BackHandler, Keyboard, Platform, } from 'react-native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import colors from "../Themes/Colors";
-import LoadingView from "../Components/LoadingView";
-import {localNoteDb} from "../const";
-import moment from "moment";
-import Toast from "react-native-simple-toast";
-import {imgDefault} from "../images";
-import ImagePicker from "react-native-image-picker";
-import {fontFamily, fontSize} from "../const";
-import ApplicationStyles from "../Themes/ApplicationStyles";
-import colors from "../Themes/Colors";
-import {StyleSheet} from 'react-native'
-
+// import LoadingView from "../Components/LoadingView";
+// import {localNoteDb} from "../const";
+// import moment from "moment";
+// import Toast from "react-native-simple-toast";
 
 const TAG = 'AddNewNote.js'
 
@@ -105,88 +87,73 @@ export default class AddNewNote extends Component {
         }
     }
 
-    openGallery = () => {
-        ImagePicker.showImagePicker({
-            maxWidth: 500,
-            maxHeight: 500,
-            mediaType: 'photo',
-        }, image => {
-            this.setState({image: image.data})
-        })
-    }
     render() {
         return (
             <View style={styles.mainContainer}>
-                {this.renderToolbar()}
-                {this.renderBody()}
-                {this.renderLoading()}
-            </View>
-        )
-    }
-
-    renderToolbar = () => {
-        return (
-            <View style={styles.toolbar}>
-                <TouchableOpacity
-                    style={styles.viewWrapIcLeft}
-                    onPress={this.handleBackPress}
-                >
-                    <MaterialCommunityIcons name={'arrow-left'} size={30} color={colors.white}/>
-                </TouchableOpacity>
-                <View style={styles.viewWrapTitleToolbar}>
-                    <Text style={styles.titleToolbar}>Add new</Text>
+                <View style={styles.toolbar}>
+                    <TouchableOpacity
+                        style={styles.viewWrapIcLeft}
+                        onPress={this.handleBackPress}
+                    >
+                        <MaterialCommunityIcons name={'arrow-left'} size={30} color={colors.white}/>
+                    </TouchableOpacity>
+                    <View style={styles.viewWrapTitleToolbar}>
+                        <Text style={styles.titleToolbar}>Add new</Text>
+                    </View>
+                    <TouchableOpacity
+                        style={styles.viewWrapIcRight}
+                        onPress={this.onSaveNotePress}
+                    >
+                        <MaterialCommunityIcons name={'check'} size={30} color={colors.white}/>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                    style={styles.viewWrapIcRight}
-                    onPress={this.onSaveNotePress}
-                >
-                    <MaterialCommunityIcons name={'check'} size={30} color={colors.white}/>
-                </TouchableOpacity>
+                
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={styles.body}>
+                        <Text style={styles.textTitle}>Image</Text>
+
+                        <TouchableOpacity
+                            onPress={this.openGallery}
+                        >
+                            <Image style={styles.img}
+                                   source={this.state.image ? {uri: `data:image;base64,${this.state.image}`} : imgDefault}/>
+                        </TouchableOpacity>
+
+                        <Text style={styles.textTitle}>Title</Text>
+                        <TextInput
+                            style={styles.textInputTitle}
+                            ref={ref => this.refTextInputTitle = ref}
+                            autoCorrect={false}
+                            returnKeyType={'next'}
+                            onSubmitEditing={() => {
+                                if (this.refTextInputContent) {
+                                    this.refTextInputContent.focus()
+                                }
+                            }}
+                        />
+
+                        <Text style={styles.textTitle}>Content</Text>
+                        <TextInput
+                            style={styles.textInputContent}
+                            ref={ref => this.refTextInputContent = ref}
+                            multiline={true}
+                            autoCorrect={false}
+                        />
+
+                        {
+                            this.state.isKeyboardShow && Platform.OS === 'ios' ?
+                                <View style={{height: this.state.keyboardHeight}}/> :
+                                null
+                        }
+                    </View>
+                </ScrollView>
+
             </View>
         )
     }
 
     renderBody = () => {
         return (
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.body}>
-                    <Text style={styles.textTitle}>Image</Text>
-
-                    <TouchableOpacity
-                        onPress={this.openGallery}
-                    >
-                        <Image style={styles.img}
-                               source={this.state.image ? {uri: `data:image;base64,${this.state.image}`} : imgDefault}/>
-                    </TouchableOpacity>
-
-                    <Text style={styles.textTitle}>Title</Text>
-                    <TextInput
-                        style={styles.textInputTitle}
-                        ref={ref => this.refTextInputTitle = ref}
-                        autoCorrect={false}
-                        returnKeyType={'next'}
-                        onSubmitEditing={() => {
-                            if (this.refTextInputContent) {
-                                this.refTextInputContent.focus()
-                            }
-                        }}
-                    />
-
-                    <Text style={styles.textTitle}>Content</Text>
-                    <TextInput
-                        style={styles.textInputContent}
-                        ref={ref => this.refTextInputContent = ref}
-                        multiline={true}
-                        autoCorrect={false}
-                    />
-
-                    {
-                        this.state.isKeyboardShow && Platform.OS === 'ios' ?
-                            <View style={{height: this.state.keyboardHeight}}/> :
-                            null
-                    }
-                </View>
-            </ScrollView>
         )
     }
 
@@ -200,49 +167,102 @@ export default class AddNewNote extends Component {
         }
     }
 }
-export default StyleSheet.create({
-    ...ApplicationStyles,
+const styles = StyleSheet.create({
     body: {
         flex: 1,
-        backgroundColor: colors.bgRoot,
-        paddingLeft: 20,
-        paddingRight: 20,
+        backgroundColor: '#f4f4f6',
+    },
+
+    // List
+    viewList: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+
+    // Item
+    viewWrapItem: {
+        paddingLeft: 10,
+        paddingRight: 10,
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 5
     },
-
     textTitle: {
-        fontSize: fontSize.medium,
-        color: colors.charcoalGrey,
-        fontFamily: fontFamily.demiBold,
-        marginTop: 10,
-        marginBottom: 5
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: 'grey'
     },
-    textInputTitle: {
-        borderWidth: 1,
-        borderColor: colors.grey,
-        borderRadius: 5,
-        fontSize: fontSize.medium,
-        color: colors.boldGrey,
-        fontFamily: fontFamily.regular,
-        padding: 10
+    textDescription: {
+        fontSize: 12,
+        color: 'grey',
+        marginTop: 10
     },
-    textInputContent: {
-        borderWidth: 1,
-        borderColor: colors.grey,
-        borderRadius: 5,
-        minHeight: 100,
-        textAlignVertical: 'top',
-        fontSize: fontSize.medium,
-        color: colors.boldGrey,
-        fontFamily: fontFamily.regular,
-        padding: 10,
+    textTime: {
+        fontSize: 12,
+        color: 'lightgrey',
+        marginTop: 5
     },
-    img: {
-        width: '95%',
-        height: 150,
-        resizeMode: 'contain'
+
+    // Btn
+    btnAddNew: {
+        position: 'absolute',
+        right: 20,
+        bottom: 20
+    },
+
+    container: {
+        flex: 1,
+        backgroundColor: '#f4f4f6'
+    },
+    toolbar: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 48, //; 88; 78,
+        paddingTop: 0,//; 40; 30,
+        backgroundColor: '#2ebe60',
+        alignItems: 'center'
+    },
+    titleContainer: {
+        flex: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    titleToolbar: {
+        color: 'white',
+        // fontFamily: fontFamily.bold,
+        fontSize: 18,
+    },
+    viewWrapIcLeft: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    icLeft: {
+        width: 23,
+        height: 23,
+        tintColor: 'white'
+    },
+    viewWrapIcRight: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    icRight: {
+        width: 23,
+        height: 23,
+        tintColor: 'white'
+    },
+    textRight: {
+        color: 'white',
+        // fontFamily: fontFamily.medium,
+        fontSize: 14,
+    },
+    viewHorizontalLine: {
+        backgroundColor: 'grey',
+        height: 0.5,
+        alignSelf: 'stretch'
     }
-
 })
-
