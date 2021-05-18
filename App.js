@@ -28,7 +28,7 @@ export default class App extends React.Component {
     return (
       <NativeRouter>
           <Route exact path="/" component={(props) => <Home {...props} notes={this.state.notes}/>}/>
-          <Route exact path="/notes/:id" component={(props) => <Detail {...props} note={this.state.notes[props.match.params._id]}/>}/>
+          <Route exact path="/notes/:id" component={(props) => <Detail {...props} note={this.state.notes[props.match.params.id]}/>}/>
       </NativeRouter>
     );
   }
