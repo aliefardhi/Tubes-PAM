@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { Alert, BackHandler, FlatList, StatusBar, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import axios from 'axios';
 // import PouchDB from '../pouchdb';
 //import {localNoteDb, nameIndex, remoteNoteDb} from "../const";
 //import moment from 'moment'
@@ -8,6 +9,8 @@ import { Alert, BackHandler, FlatList, StatusBar, Text, TouchableOpacity, View, 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 //import colors from "../Themes/Colors";
 //import NoDataView from "../Components/NoDataView";
+
+import Notelist from './Notelist';
 
 let handlerSync = null
 
@@ -22,76 +25,7 @@ export default class Home extends Component{
         this.isAtCurrentScreen = true
     }
 
-    // componentWillUnmount(){
-    //     BackHandler.removeEventListener('hardwareBackPress',this.handleBackPress)
-    //     handlerSync.cancel()
-    // }
-
-    // componentDidMount(){
-    //     BackHandler.addEventListener('hardwareBackPress',this.handleBackPress)
-    //     this.syncDb()
-    //     this.getListNoteFromDb()
-    // }
-
-    // handleBackPress = () =>{
-    //     Alert.alert("Confirm", "Ingin keluar dari aplikasi?", [
-    //         {text: "Ya", onPress:()=>BackHandler.exitApp()},
-    //         {text: "Tidak"}
-    //     ])
-    //     return true
-    // }
-
-    // syncDb = () => {
-    //     this.setState({isLoading: true})
-    //     handlerSync = PouchDB.sync(remoteNoteDb, localNoteDb, {
-    //         live: true,
-    //         retry: true,
-    //     })
-
-    //     .on('change',(info)=>{
-
-    //     })
-    //     .on('paused', (err)=>{
-    //         if(this.isAtCurrentScreen){
-    //             this.getListNoteFromDb()
-    //         }
-    //     })
-    //     .on('active', () =>{
-
-    //     })
-    //     .on('denied', (err)=>{
-
-    //     })
-    //     .on('complete',(info)=>{
-
-    //     })
-    //     .on('error', (err)=>[
-
-    //     ])
-    // }
-
-    // getListNoteFromDb = () =>{
-    //     this.setState({isLoading: true})
-    //     localNoteDb
-    //         .find({
-    //             selector:{
-    //                 updated_at:{$gt:true}
-    //             },
-    //             fields:['_id','title','updated_at'],
-    //             use_index: nameIndex.updated_at,
-    //             sort: [{updated_at: 'desc'}]
-    //         })
-    //         .then(result=>{
-    //             this.setState({
-    //                 isLoading: false,
-    //                 arrNote: [...result.docs]
-    //             })
-    //         })
-    //         .catch(err=>{
-    //             this.setState({isLoading:false})
-    //             //Toast.show(err.message)
-    //         })
-    // }
+    
 
     returnFromDetail = () =>{
         this.isAtCurrentScreen=true
@@ -111,6 +45,7 @@ export default class Home extends Component{
     }
 
     render(){
+
         return(
             <View style={styles.container}>
                 <StatusBar barStyle="light-content"/>
@@ -122,7 +57,7 @@ export default class Home extends Component{
                 </View>
 
                 <View style={styles.body}>
-                    {this.state.arrNote && this.state.arrNote.length > 0?
+                    {/* {this.state.arrNote && this.state.arrNote.length > 0?
                         <FlatList
                             style={styles.viewList}
                             data={this.state.arrNote}
@@ -134,7 +69,8 @@ export default class Home extends Component{
                             renderItem={this.renderItem}
                         />:
                         <View onRetryPress={this.getListNoteFromDb}/>
-                    } 
+                    }  */}
+                    <Notelist notes={this.props.notes}/>
 
                     <TouchableOpacity style={styles.btnAddNew} onPress={this.onAddNewPress}>
                         <MaterialCommunityIcons name={"plus-circle"} size={50} />
@@ -284,3 +220,90 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch'
     }
 })
+
+// componentDidMount = () =>{
+    //     this.getContent();
+    // }
+
+    // getContent = () => {
+    //     axios.get('/api/v1/prak')
+    //      .then((response) => {
+    //          const data = response.data;
+    //          this.setState({arrNote:data});
+    //          console.log('data dapet');
+    //      })
+    //      .catch(()=>{
+    //          alert('error ngambil data');
+    //      });
+    // }
+
+    // componentWillUnmount(){
+    //     BackHandler.removeEventListener('hardwareBackPress',this.handleBackPress)
+    //     handlerSync.cancel()
+    // }
+
+    // componentDidMount(){
+    //     BackHandler.addEventListener('hardwareBackPress',this.handleBackPress)
+    //     this.syncDb()
+    //     this.getListNoteFromDb()
+    // }
+
+    // handleBackPress = () =>{
+    //     Alert.alert("Confirm", "Ingin keluar dari aplikasi?", [
+    //         {text: "Ya", onPress:()=>BackHandler.exitApp()},
+    //         {text: "Tidak"}
+    //     ])
+    //     return true
+    // }
+
+    // syncDb = () => {
+    //     this.setState({isLoading: true})
+    //     handlerSync = PouchDB.sync(remoteNoteDb, localNoteDb, {
+    //         live: true,
+    //         retry: true,
+    //     })
+
+    //     .on('change',(info)=>{
+
+    //     })
+    //     .on('paused', (err)=>{
+    //         if(this.isAtCurrentScreen){
+    //             this.getListNoteFromDb()
+    //         }
+    //     })
+    //     .on('active', () =>{
+
+    //     })
+    //     .on('denied', (err)=>{
+
+    //     })
+    //     .on('complete',(info)=>{
+
+    //     })
+    //     .on('error', (err)=>[
+
+    //     ])
+    // }
+
+    // getListNoteFromDb = () =>{
+    //     this.setState({isLoading: true})
+    //     localNoteDb
+    //         .find({
+    //             selector:{
+    //                 updated_at:{$gt:true}
+    //             },
+    //             fields:['_id','title','updated_at'],
+    //             use_index: nameIndex.updated_at,
+    //             sort: [{updated_at: 'desc'}]
+    //         })
+    //         .then(result=>{
+    //             this.setState({
+    //                 isLoading: false,
+    //                 arrNote: [...result.docs]
+    //             })
+    //         })
+    //         .catch(err=>{
+    //             this.setState({isLoading:false})
+    //             //Toast.show(err.message)
+    //         })
+    // }
